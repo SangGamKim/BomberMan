@@ -68,6 +68,7 @@ class Player : MapObjectBase, IMovable, IAttackable
 		if (TableManager.I.GetPlayerTable(1, out table) == false) { System.Diagnostics.Debug.Assert(false, "Player Table Null"); }
 
 		_baseStat = table.Stat;
+		_itemStat = new PlayerStat();
 		foreach (var eq in UserInformation.I.Inventory.ListWearEquipment) { _baseStat += eq.Stat; }
 
 		if (SceneManager.I.CurrentScene.Name() == SCENE_NAME.GAME_SCENE) { InGameBombCount = _baseStat.BombCount; }
