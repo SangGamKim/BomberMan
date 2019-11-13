@@ -6,7 +6,7 @@ class MapManager
 
     private List<MapBase> _listMap;
 
-    public MapManager()
+	private MapManager()
     {
         _listMap = new List<MapBase>();
 

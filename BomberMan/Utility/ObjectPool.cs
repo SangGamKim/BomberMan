@@ -7,7 +7,7 @@ class ObjectPool
     private Dictionary<MAPOBJECT_NAME, List<MapObjectBase>> _dicObjectPool;
     private Dictionary<MapObjectBase, MapObjectBase> _dicSpawnObject;
 
-    public ObjectPool()
+	private ObjectPool()
     {
         _dicObjectPool = new Dictionary<MAPOBJECT_NAME, List<MapObjectBase>>();
         _dicSpawnObject = new Dictionary<MapObjectBase, MapObjectBase>();

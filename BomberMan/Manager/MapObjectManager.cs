@@ -10,7 +10,7 @@ class MapObjectManager
     private Dictionary<MAPOBJECT_TYPE, List<MapObjectBase>> _dicObjectList;
     private List<MapObjectBase> _listTempRemoveObject;
 
-    public MapObjectManager()
+	private MapObjectManager()
     {
         _dicObjectList = new Dictionary<MAPOBJECT_TYPE, List<MapObjectBase>>();
         _listTempRemoveObject = new List<MapObjectBase>();
