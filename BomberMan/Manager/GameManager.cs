@@ -20,20 +20,20 @@ class GameManager
 
     #endregion SINGLETON
 
-    private Dictionary<DIRECTION, Vector2> _dicDirection;
+    private Dictionary<DIRECTION, Vector2> _mapDirection;
 
     private int _playerScore;
     private int _playerKill;
 
     private GameManager()
     {
-        _dicDirection = new Dictionary<DIRECTION, Vector2>();
+        _mapDirection = new Dictionary<DIRECTION, Vector2>();
 
-        _dicDirection.Add(DIRECTION.UP, new Vector2(0, -0.5f));
-        _dicDirection.Add(DIRECTION.DOWN, new Vector2(0, 0.5f));
-        _dicDirection.Add(DIRECTION.LEFT, new Vector2(-1, 0));
-        _dicDirection.Add(DIRECTION.RIGHT, new Vector2(1, 0));
-        _dicDirection.Add(DIRECTION.NONE, Vector2.Zero);
+        _mapDirection.Add(DIRECTION.UP, new Vector2(0, -0.5f));
+        _mapDirection.Add(DIRECTION.DOWN, new Vector2(0, 0.5f));
+        _mapDirection.Add(DIRECTION.LEFT, new Vector2(-1, 0));
+        _mapDirection.Add(DIRECTION.RIGHT, new Vector2(1, 0));
+        _mapDirection.Add(DIRECTION.NONE, Vector2.Zero);
     }
 
     public void CheckMonsterCount(int kill, int score)
@@ -63,5 +63,5 @@ class GameManager
     public int PlayerScore { get { return _playerScore; } }
     public int PlayerKill { get { return _playerKill; } }
 
-    public Dictionary<DIRECTION, Vector2> DicDirection { get { return _dicDirection; } }
+    public Dictionary<DIRECTION, Vector2> DicDirection { get { return _mapDirection; } }
 }

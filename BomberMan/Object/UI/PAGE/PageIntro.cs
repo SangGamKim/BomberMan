@@ -2,11 +2,6 @@
 
 class PageIntro : UIBase
 {
-    public override void Update(float ticks = 0)
-    {
-        if (GetKey.Down(KEY_TYPE.SPACE)) { SceneManager.I.ChangeScene(SCENE_NAME.LOBBY_SCENE); }
-    }
-
     public override void Render()
     {
         Console.SetCursorPosition(50, 5);

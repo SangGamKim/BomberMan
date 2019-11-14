@@ -22,16 +22,16 @@ class PageLobby : UIBase
         Console.Write("Player PosY  : {0}", Player._tempPosition.Y);
 
         Console.SetCursorPosition(20, 27);
-        Console.Write("Player   : {0}", MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.PLAYER).Count);
+        Console.Write("Player   : {0}", MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.PLAYER).Count);
 
         Console.SetCursorPosition(20, 28);
-        Console.Write("Obstacle  : {0}", MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE).Count);
+        Console.Write("Obstacle  : {0}", MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.OBSTACLE).Count);
 
         Console.SetCursorPosition(20, 29);
-        Console.Write("Monster  : {0}", MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.MONSTER).Count);
+        Console.Write("Monster  : {0}", MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.MONSTER).Count);
 
         Console.SetCursorPosition(20, 30);
-        Console.Write("EXPLODE_BOMB  : {0}", MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.EXPLODE_BOMB).Count);
+        Console.Write("EXPLODE_BOMB  : {0}", MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.EXPLODE_BOMB).Count);
     }
 
 

@@ -2,14 +2,14 @@
 
 class UserInventory
 {
-	private Dictionary<int, Equipment> _dicHaveEquipment;
+	private Dictionary<int, Equipment> _mapHaveEquipment;
 	private List<Equipment> _listWearEquipment;
 
 	private int _uid;
 
 	public UserInventory()
 	{
-		_dicHaveEquipment = new Dictionary<int, Equipment>();
+		_mapHaveEquipment = new Dictionary<int, Equipment>();
 		_listWearEquipment = new List<Equipment>();
 		_uid = 1;
 	}
@@ -19,22 +19,32 @@ class UserInventory
 		EquipmentTable table;
 		if (TableManager.I.GetEquipmentTable(id, out table) == false) { System.Diagnostics.Debug.Assert(false, "Buy ItemTable Null"); }
 
-		_dicHaveEquipment.Add(_uid, new Equipment(_uid++, table.Name, table.Type, table.Stat));
+		_mapHaveEquipment.Add(_uid, new Equipment(_uid++, table.Name, table.Type, table.Stat));
 		return true;
 	}
 
 	public bool WearEquipment(int id)
 	{
-		if (_dicHaveEquipment[id] == null) { return false; }
+		if (_mapHaveEquipment[id] == null) { return false; }
 
-		_listWearEquipment.Add(_dicHaveEquipment[id]);
-		_dicHaveEquipment.Remove(id);
+		for (int i = 0; i < _listWearEquipment.Count; i++)
+		{
+			if(_listWearEquipment[i].Type == _mapHaveEquipment[id].Type)
+			{
+				_mapHaveEquipment.Add(_listWearEquipment[i].ID, _listWearEquipment[i]);
+				_listWearEquipment.RemoveAt(i);
+				break;
+			}
+		}
+
+		_listWearEquipment.Add(_mapHaveEquipment[id]);
+		_mapHaveEquipment.Remove(id);
 		return true;
 	}
 
 	public Equipment GetEquipment(int id)
 	{
-		return _dicHaveEquipment[id];
+		return _mapHaveEquipment[id];
 	}
 
 	public Equipment GetWearEquipment(int id)
@@ -43,6 +53,6 @@ class UserInventory
 	}
 
 
-	public Dictionary<int, Equipment> DicHaveEquipment { get { return _dicHaveEquipment; } }
+	public Dictionary<int, Equipment> DicHaveEquipment { get { return _mapHaveEquipment; } }
 	public List<Equipment> ListWearEquipment { get { return _listWearEquipment; } }
 }

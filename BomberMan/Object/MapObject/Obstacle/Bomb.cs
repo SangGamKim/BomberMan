@@ -91,19 +91,19 @@ class Bomb : MapObjectBase, IAttackable, IMovable
 		_createBomb = MapObjectManager.I.CreateObject<ExplodeBomb>(MAPOBJECT_NAME.EXPLODEBOMB, _transform.Position.X, _transform.Position.Y);
 		for (int count = 1; count <= _range; count++)
 		{
-			for (int i = 0; i < MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE).Count; i++)
+			for (int i = 0; i < MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.OBSTACLE).Count; i++)
 			{
 				rect.Position = new Vector2(_transform.Position.X - (count * 2), _transform.Position.Y);
-				if (MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position == rect.Position) { left = false; }
+				if (MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position == rect.Position) { left = false; }
 
 				rect.Position = new Vector2(_transform.Position.X + (count * 2), _transform.Position.Y);
-				if (MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position == rect.Position) { right = false; }
+				if (MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position == rect.Position) { right = false; }
 
 				rect.Position = new Vector2(_transform.Position.X, _transform.Position.Y - (1 * count));
-				if (MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position == rect.Position) { top = false; }
+				if (MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position == rect.Position) { top = false; }
 
 				rect.Position = new Vector2(_transform.Position.X, _transform.Position.Y + (1 * count));
-				if (MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position == rect.Position) { bot = false; }
+				if (MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position == rect.Position) { bot = false; }
 			}
 
 			if (left) { MapObjectManager.I.CreateObject<ExplodeBomb>(MAPOBJECT_NAME.EXPLODEBOMB, _transform.Position.X - (count * 2), _transform.Position.Y); }
@@ -118,7 +118,7 @@ class Bomb : MapObjectBase, IAttackable, IMovable
 
 	public void Move(float ticks)
 	{
-		for (int i = 0; i < MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE).Count; i++)
+		for (int i = 0; i < MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.OBSTACLE).Count; i++)
 		{
 			Vector2 tempPos = _transform.Position;
 
@@ -127,14 +127,14 @@ class Bomb : MapObjectBase, IAttackable, IMovable
 			else if (_direction == DIRECTION.UP) { tempPos = new Vector2(tempPos.X, tempPos.Y - 1); }
 			else if (_direction == DIRECTION.DOWN) { tempPos = new Vector2(tempPos.X, tempPos.Y + 1); }
 
-			if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position)
+			if (tempPos == MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position)
 			{
 				StopMove();
 				return;
 			}
 		}
 
-		for (int i = 0; i < MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE).Count; i++)
+		for (int i = 0; i < MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.BREAK_OBSTACLE).Count; i++)
 		{
 			Vector2 tempPos = _transform.Position;
 
@@ -143,14 +143,14 @@ class Bomb : MapObjectBase, IAttackable, IMovable
 			else if (_direction == DIRECTION.UP) { tempPos = new Vector2(tempPos.X, tempPos.Y - 1); }
 			else if (_direction == DIRECTION.DOWN) { tempPos = new Vector2(tempPos.X, tempPos.Y + 1); }
 
-			if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i].Transfrom.Position)
+			if (tempPos == MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i].Transfrom.Position)
 			{
 				StopMove();
 				return;
 			}
 		}
 
-		for (int i = 0; i < MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.MONSTER).Count; i++)
+		for (int i = 0; i < MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.MONSTER).Count; i++)
 		{
 			Vector2 tempPos = _transform.Position;
 
@@ -159,7 +159,7 @@ class Bomb : MapObjectBase, IAttackable, IMovable
 			else if (_direction == DIRECTION.UP) { tempPos = new Vector2(tempPos.X, tempPos.Y - 1); }
 			else if (_direction == DIRECTION.DOWN) { tempPos = new Vector2(tempPos.X, tempPos.Y + 1); }
 
-			if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.MONSTER)[i].Transfrom.Position)
+			if (tempPos == MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.MONSTER)[i].Transfrom.Position)
 			{
 				StopMove();
 				return;

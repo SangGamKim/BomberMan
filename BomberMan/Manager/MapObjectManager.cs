@@ -7,20 +7,20 @@ class MapObjectManager
 {
     private static readonly MapObjectManager _instance = new MapObjectManager();
 
-    private Dictionary<MAPOBJECT_TYPE, List<MapObjectBase>> _dicObjectList;
+    private Dictionary<MAPOBJECT_TYPE, List<MapObjectBase>> _mapObjectList;
     private List<MapObjectBase> _listTempRemoveObject;
 
 	private MapObjectManager()
     {
-        _dicObjectList = new Dictionary<MAPOBJECT_TYPE, List<MapObjectBase>>();
+        _mapObjectList = new Dictionary<MAPOBJECT_TYPE, List<MapObjectBase>>();
         _listTempRemoveObject = new List<MapObjectBase>();
 
-        _dicObjectList.Add(MAPOBJECT_TYPE.OBSTACLE, new List<MapObjectBase>());
-        _dicObjectList.Add(MAPOBJECT_TYPE.BREAK_OBSTACLE, new List<MapObjectBase>());
-        _dicObjectList.Add(MAPOBJECT_TYPE.INTERACTION, new List<MapObjectBase>());
-        _dicObjectList.Add(MAPOBJECT_TYPE.MONSTER, new List<MapObjectBase>());
-        _dicObjectList.Add(MAPOBJECT_TYPE.EXPLODE_BOMB, new List<MapObjectBase>());
-        _dicObjectList.Add(MAPOBJECT_TYPE.PLAYER, new List<MapObjectBase>());
+        _mapObjectList.Add(MAPOBJECT_TYPE.OBSTACLE, new List<MapObjectBase>());
+        _mapObjectList.Add(MAPOBJECT_TYPE.BREAK_OBSTACLE, new List<MapObjectBase>());
+        _mapObjectList.Add(MAPOBJECT_TYPE.INTERACTION, new List<MapObjectBase>());
+        _mapObjectList.Add(MAPOBJECT_TYPE.MONSTER, new List<MapObjectBase>());
+        _mapObjectList.Add(MAPOBJECT_TYPE.EXPLODE_BOMB, new List<MapObjectBase>());
+        _mapObjectList.Add(MAPOBJECT_TYPE.PLAYER, new List<MapObjectBase>());
     }
 
     public T CreateObject<T>(MAPOBJECT_NAME name, float x, float y) where T : MapObjectBase, new()
@@ -29,7 +29,7 @@ class MapObjectManager
         pool.SetPosition(x, y);
         pool.Start();
 
-        _dicObjectList[pool.Type()].Add(pool);
+        _mapObjectList[pool.Type()].Add(pool);
 
         return pool as T;
     }
@@ -50,7 +50,7 @@ class MapObjectManager
     {
         for (int i = 0; i < _listTempRemoveObject.Count; i++)
         {
-            _dicObjectList[_listTempRemoveObject[i].Type()].Remove(_listTempRemoveObject[i]);
+            _mapObjectList[_listTempRemoveObject[i].Type()].Remove(_listTempRemoveObject[i]);
             ObjectPool.I.PushToPull(_listTempRemoveObject[i]);
         }
 
@@ -60,7 +60,7 @@ class MapObjectManager
 	public void DestroyAllOjbect()
 	{
 		_listTempRemoveObject.Clear();
-		foreach (var obj in _dicObjectList)
+		foreach (var obj in _mapObjectList)
 		{
 			for (int i = 0; i < obj.Value.Count; i++) { ObjectPool.I.PushToPull(obj.Value[i]); }
 			obj.Value.Clear();
@@ -69,17 +69,17 @@ class MapObjectManager
 
     public T GetObject<T>(MAPOBJECT_TYPE type, MAPOBJECT_NAME name)  where T : MapObjectBase
     {
-		return _dicObjectList[type].Find((c) => c.Name() == name) as T;
+		return _mapObjectList[type].Find((c) => c.Name() == name) as T;
 	}
 
-    public List<MapObjectBase> GetDicList(MAPOBJECT_TYPE type)
+    public List<MapObjectBase> GetObjectList(MAPOBJECT_TYPE type)
     {
-        return _dicObjectList[type];
+        return _mapObjectList[type];
     }
 
-    public Dictionary<MAPOBJECT_TYPE, List<MapObjectBase>> GetDic()
+    public Dictionary<MAPOBJECT_TYPE, List<MapObjectBase>> GetMap()
     {
-        return _dicObjectList;
+        return _mapObjectList;
     }
 
 

@@ -4,22 +4,22 @@ class SceneManager
 {
 	private static readonly SceneManager _instance = new SceneManager();
 
-	private Dictionary<SCENE_NAME, SceneBase> _dicScene;
+	private Dictionary<SCENE_NAME, SceneBase> _mapScene;
 	private SceneBase _currentScene;
 
 	private SceneManager()
 	{
-		_dicScene = new Dictionary<SCENE_NAME, SceneBase>();
+		_mapScene = new Dictionary<SCENE_NAME, SceneBase>();
 
-		_dicScene.Add(SCENE_NAME.INTRO_SCENE, new IntroScene());
-		_dicScene.Add(SCENE_NAME.LOBBY_SCENE, new LobbyScene());
-		_dicScene.Add(SCENE_NAME.GAME_SCENE, new GameScene());
-		_dicScene.Add(SCENE_NAME.RESULT_SCENE, new ResultScene());
+		_mapScene.Add(SCENE_NAME.INTRO_SCENE, new IntroScene());
+		_mapScene.Add(SCENE_NAME.LOBBY_SCENE, new LobbyScene());
+		_mapScene.Add(SCENE_NAME.GAME_SCENE, new GameScene());
+		_mapScene.Add(SCENE_NAME.RESULT_SCENE, new ResultScene());
 	}
 
 	public void Start()
 	{
-		_currentScene = _dicScene[SCENE_NAME.INTRO_SCENE];
+		_currentScene = _mapScene[SCENE_NAME.INTRO_SCENE];
 		_currentScene.Running();
 	}
 
@@ -30,7 +30,7 @@ class SceneManager
 		UIManager.I.DestroyPageUI();
 		MapObjectManager.I.DestroyAllOjbect();
 
-		_dicScene.TryGetValue(nextScene, out _currentScene);
+		_mapScene.TryGetValue(nextScene, out _currentScene);
 		_currentScene.Running();
 	}
 

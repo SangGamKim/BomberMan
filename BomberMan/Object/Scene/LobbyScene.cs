@@ -19,7 +19,7 @@ class LobbyScene : SceneBase
     {
         base.Update(ticks);
 
-        foreach (var obj in MapObjectManager.I.GetDic())
+        foreach (var obj in MapObjectManager.I.GetMap())
         {
             for (int i = 0; i < obj.Value.Count; i++) { obj.Value[i].Update(ticks); }
         }
@@ -28,7 +28,7 @@ class LobbyScene : SceneBase
     public override void Render()
     {
         base.Render();
-        foreach (var obj in MapObjectManager.I.GetDic())
+        foreach (var obj in MapObjectManager.I.GetMap())
         {
             for (int i = 0; i < obj.Value.Count; i++) { obj.Value[i].Render(); }
         }
@@ -36,9 +36,9 @@ class LobbyScene : SceneBase
 
     public override void Interaction()
     {
-        for (int i = 0; i < MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.INTERACTION).Count; i++)
+        for (int i = 0; i < MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.INTERACTION).Count; i++)
         {
-            MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.INTERACTION)[i].Interaction(_player);
+            MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.INTERACTION)[i].Interaction(_player);
         }
     }
 

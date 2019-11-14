@@ -56,7 +56,7 @@ abstract class MonsterBase : MapObjectBase, IMovable
 
 	public virtual void Move(float ticks)
 	{
-		for (int i = 0; i < MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE).Count; i++)
+		for (int i = 0; i < MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.OBSTACLE).Count; i++)
 		{
 			Vector2 tempPos = _transform.Position;
 
@@ -65,14 +65,14 @@ abstract class MonsterBase : MapObjectBase, IMovable
 			else if (_direction == DIRECTION.UP) { tempPos = new Vector2(tempPos.X, tempPos.Y - 1); }
 			else if (_direction == DIRECTION.DOWN) { tempPos = new Vector2(tempPos.X, tempPos.Y + 1); }
 
-			if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position)
+			if (tempPos == MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position)
 			{
 				StopMove();
 				return;
 			}
 		}
 
-		for (int i = 0; i < MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE).Count; i++)
+		for (int i = 0; i < MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.BREAK_OBSTACLE).Count; i++)
 		{
 			Vector2 tempPos = _transform.Position;
 
@@ -81,7 +81,7 @@ abstract class MonsterBase : MapObjectBase, IMovable
 			else if (_direction == DIRECTION.UP) { tempPos = new Vector2(tempPos.X, tempPos.Y - 1); }
 			else if (_direction == DIRECTION.DOWN) { tempPos = new Vector2(tempPos.X, tempPos.Y + 1); }
 
-			if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i].Transfrom.Position)
+			if (tempPos == MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i].Transfrom.Position)
 			{
 				StopMove();
 				return;

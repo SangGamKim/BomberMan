@@ -16,6 +16,7 @@ class Equipment
 
 	public int ID { get { return _uid; } }
 	public string Name { get { return _name; } }
+	public EQUIPMENT_TYPE Type { get { return _type; } }
 	public PlayerStat Stat { get { return _stat; } set { _stat = value; } }
 }
 

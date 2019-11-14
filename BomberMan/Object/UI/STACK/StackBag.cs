@@ -11,7 +11,7 @@ class StackBag : UIBase
 	private DIRECTION _direction;
 	private int _exitPosY;
 
-	private Dictionary<int, int> _dicYEquipmentIndex;
+	private Dictionary<int, int> _mapYEquipmentIndex;
 
 	public StackBag()
 	{
@@ -21,12 +21,12 @@ class StackBag : UIBase
 	public override void Start()
 	{
 		_pointPosition = new Vector2(96, 5);
-		_dicYEquipmentIndex = new Dictionary<int, int>();
+		_mapYEquipmentIndex = new Dictionary<int, int>();
 		_exitPosY = 5;
 
 		foreach (var eq in UserInformation.I.Inventory.DicHaveEquipment)
 		{
-			_dicYEquipmentIndex.Add(_exitPosY, eq.Value.ID);
+			_mapYEquipmentIndex.Add(_exitPosY, eq.Value.ID);
 			_exitPosY += 2;
 		}
 	}
@@ -112,7 +112,7 @@ class StackBag : UIBase
 			else
 			{
 				var pop = UIManager.I.CreateUI<PopupEquipmentInfo>(_currentScene);
-				pop.EquipmentID = _dicYEquipmentIndex[(int)_pointPosition.Y];
+				pop.EquipmentID = _mapYEquipmentIndex[(int)_pointPosition.Y];
 			}
 		}
 	}

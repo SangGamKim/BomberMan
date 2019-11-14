@@ -99,7 +99,7 @@ class Player : MapObjectBase, IMovable, IAttackable
 			return;
 		}
 
-		for (int i = 0; i < MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE).Count; i++)
+		for (int i = 0; i < MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.OBSTACLE).Count; i++)
 		{
 			Vector2 tempPos = _transform.Position;
 
@@ -108,7 +108,7 @@ class Player : MapObjectBase, IMovable, IAttackable
 			else if (_direction == DIRECTION.UP) { tempPos = new Vector2(tempPos.X, tempPos.Y - 1); }
 			else if (_direction == DIRECTION.DOWN) { tempPos = new Vector2(tempPos.X, tempPos.Y + 1); }
 
-			if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position)
+			if (tempPos == MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position)
 			{
 				StopMove();
 				return;
@@ -117,7 +117,7 @@ class Player : MapObjectBase, IMovable, IAttackable
 
 		if (_rideType != RIDE_TYPE.STAR)
 		{
-			for (int i = 0; i < MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE).Count; i++)
+			for (int i = 0; i < MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.BREAK_OBSTACLE).Count; i++)
 			{
 				Vector2 tempPos = _transform.Position;
 
@@ -126,9 +126,9 @@ class Player : MapObjectBase, IMovable, IAttackable
 				else if (_direction == DIRECTION.UP) { tempPos = new Vector2(tempPos.X, tempPos.Y - 1); }
 				else if (_direction == DIRECTION.DOWN) { tempPos = new Vector2(tempPos.X, tempPos.Y + 1); }
 
-				if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i].Transfrom.Position)
+				if (tempPos == MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i].Transfrom.Position)
 				{
-					Kick(MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i]);
+					Kick(MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i]);
 					StopMove();
 					return;
 				}
@@ -208,14 +208,14 @@ class Player : MapObjectBase, IMovable, IAttackable
 	{
 		if (InGameBombCount <= 0) { return; }
 
-		for (int i = 0; i < MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE).Count; i++)
+		for (int i = 0; i < MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.OBSTACLE).Count; i++)
 		{
-			if (MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE)[i].Position == _transform.Position) { return; }
+			if (MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.OBSTACLE)[i].Position == _transform.Position) { return; }
 		}
 
-		for (int i = 0; i < MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE).Count; i++)
+		for (int i = 0; i < MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.BREAK_OBSTACLE).Count; i++)
 		{
-			if (MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i].Position == _transform.Position) { return; }
+			if (MapObjectManager.I.GetObjectList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i].Position == _transform.Position) { return; }
 		}
 
 		InGameBombCount--;

@@ -4,13 +4,13 @@ class UIManager
 {
 	private static readonly UIManager _instance = new UIManager();
 
-	private Dictionary<UIBase, List<UIBase>> _dicPageStack;
+	private Dictionary<UIBase, List<UIBase>> _mapPageStack;
 	private List<UIBase> _listPopup;
 	private UIBase _currentPage;
 
 	private UIManager()
 	{
-		_dicPageStack = new Dictionary<UIBase, List<UIBase>>();
+		_mapPageStack = new Dictionary<UIBase, List<UIBase>>();
 		_listPopup = new List<UIBase>();
 	}
 
@@ -34,10 +34,10 @@ class UIManager
 			case UI_TYPE.PAGE:
 				{
 					_currentPage = newUI;
-					_dicPageStack.Add(_currentPage, new List<UIBase>());
+					_mapPageStack.Add(_currentPage, new List<UIBase>());
 				}
 				break;
-			case UI_TYPE.STACK: { _dicPageStack[_currentPage].Add(newUI); } break;
+			case UI_TYPE.STACK: { _mapPageStack[_currentPage].Add(newUI); } break;
 			case UI_TYPE.POPUP: { _listPopup.Add(newUI); } break;
 			default: break;
 		}
@@ -51,8 +51,8 @@ class UIManager
 	{
 		if (_currentPage == null) { return; }
 
-		_dicPageStack[_currentPage].Clear();
-		_dicPageStack.Remove(_currentPage);
+		_mapPageStack[_currentPage].Clear();
+		_mapPageStack.Remove(_currentPage);
 		_currentPage = null;
 	}
 	/// <summary>
@@ -60,13 +60,13 @@ class UIManager
 	/// </summary>
 	public void DestroyStackUI()
 	{
-		var delStack = _dicPageStack[_currentPage][_dicPageStack[_currentPage].Count - 1];
+		var delStack = _mapPageStack[_currentPage][_mapPageStack[_currentPage].Count - 1];
 		if (delStack == null) { return; }
 
-		if (_dicPageStack[_currentPage].Count > 1)
+		if (_mapPageStack[_currentPage].Count > 1)
 		{
-			delStack.CurrentScene.CurrentUI = _dicPageStack[_currentPage][_dicPageStack[_currentPage].Count - 2];
-			_dicPageStack[_currentPage][_dicPageStack[_currentPage].Count - 2].Start();
+			delStack.CurrentScene.CurrentUI = _mapPageStack[_currentPage][_mapPageStack[_currentPage].Count - 2];
+			_mapPageStack[_currentPage][_mapPageStack[_currentPage].Count - 2].Start();
 		}
 		else
 		{
@@ -74,7 +74,7 @@ class UIManager
 			_currentPage.Start();
 		}
 
-		_dicPageStack[_currentPage].Remove(delStack);
+		_mapPageStack[_currentPage].Remove(delStack);
 		delStack = null;
 	}
 	/// <summary>
@@ -99,10 +99,10 @@ class UIManager
 			delPopup.CurrentScene.CurrentUI = popup;
 			popup.Start();
 		}
-		else if (_dicPageStack[_currentPage].Count > 0)
+		else if (_mapPageStack[_currentPage].Count > 0)
 		{
-			delPopup.CurrentScene.CurrentUI = _dicPageStack[_currentPage][_dicPageStack[_currentPage].Count - 1];
-			_dicPageStack[_currentPage][_dicPageStack[_currentPage].Count - 1].Start();
+			delPopup.CurrentScene.CurrentUI = _mapPageStack[_currentPage][_mapPageStack[_currentPage].Count - 1];
+			_mapPageStack[_currentPage][_mapPageStack[_currentPage].Count - 1].Start();
 		}
 		else if (_currentPage != null)
 		{
@@ -122,7 +122,7 @@ class UIManager
 
 	public T GetStackUI<T>(UI_NAME name) where T : UIBase
 	{
-		return _dicPageStack[_currentPage].Find((c) => c.Name() == name) as T;
+		return _mapPageStack[_currentPage].Find((c) => c.Name() == name) as T;
 	}
 
 	public T GetPopupUI<T>(UI_NAME name) where T : UIBase
