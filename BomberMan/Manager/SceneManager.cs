@@ -7,7 +7,7 @@ class SceneManager
 	private Dictionary<SCENE_NAME, SceneBase> _dicScene;
 	private SceneBase _currentScene;
 
-	public SceneManager()
+	private SceneManager()
 	{
 		_dicScene = new Dictionary<SCENE_NAME, SceneBase>();
 

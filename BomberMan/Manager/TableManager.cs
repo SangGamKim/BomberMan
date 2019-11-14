@@ -9,7 +9,7 @@ class TableManager
     private Dictionary<int, MonsterTable> _dicMonsterTable;
     private Dictionary<int, PlayerTable> _dicPlayerTable;
 
-    public TableManager()
+	private TableManager()
     {
         CreatePlayerTable();
         CreateMonsterTable();

@@ -8,7 +8,7 @@ class UIManager
 	private List<UIBase> _listPopup;
 	private UIBase _currentPage;
 
-	public UIManager()
+	private UIManager()
 	{
 		_dicPageStack = new Dictionary<UIBase, List<UIBase>>();
 		_listPopup = new List<UIBase>();
