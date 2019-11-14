@@ -25,7 +25,7 @@ class GameManager
     private int _playerScore;
     private int _playerKill;
 
-    public GameManager()
+    private GameManager()
     {
         _dicDirection = new Dictionary<DIRECTION, Vector2>();
 

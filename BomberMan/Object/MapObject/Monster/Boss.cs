@@ -37,11 +37,8 @@ class Boss : MonsterBase
 
     public override void Start()
     {
+		Init(2);
         base.Start();
-
-        MonsterTable table;
-        if(TableManager.I.GetMonsterTable(2, out table) == false) { System.Diagnostics.Debug.Assert(false, "MonsterBoss Null"); }
-        _stat = table.Stat;
 
         _isAttack = false;
         _attackTime = 0;

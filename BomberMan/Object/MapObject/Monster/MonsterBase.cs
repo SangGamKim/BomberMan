@@ -2,157 +2,113 @@
 
 public struct MonsterStat
 {
-    public int Life;
-    public float MoveSpeed;
-    public int PlayerScore;
+	public int Life;
+	public float MoveSpeed;
+	public int PlayerScore;
 
-    public MonsterStat(int life, float movSpeed, int score)
-    {
-        Life = life;
-        MoveSpeed = movSpeed;
-        PlayerScore = score;
-    }
+	public MonsterStat(int life, float movSpeed, int score)
+	{
+		Life = life;
+		MoveSpeed = movSpeed;
+		PlayerScore = score;
+	}
 }
 
 
 abstract class MonsterBase : MapObjectBase, IMovable
 {
-    public static int MonsterCount;
+	public static int MonsterCount;
 
-    protected MonsterStat _stat;
+	protected MonsterStat _stat;
 
-    protected DIRECTION _direction;
+	protected DIRECTION _direction;
 
-    protected Vector2 _tempPosition;
+	protected Vector2 _tempPosition;
 
-
-    public override void Start()
-    {
+	public override void Start()
+	{
 		base.Start();
-        _direction = (DIRECTION)new Random().Next(0, 4);
-        _tempPosition = _transform.Position;
-    }
+		_direction = (DIRECTION)new Random().Next(0, 4);
+		_tempPosition = _transform.Position;
+	}
 
-    public override void Update(float ticks = 0)
-    {
-        Move(ticks);
-    }
+	protected void Init(int id)
+	{
+		MonsterTable table;
+		if (TableManager.I.GetMonsterTable(id, out table) == false) { System.Diagnostics.Debug.Assert(false, "MonsterBoss Null"); }
+		_stat = table.Stat;
+	}
 
-    public override void Interaction(Player player)
-    {
-        if (_transform.IsCross(player.Transfrom)) { player.Hurt(); }
-    }
+	public override void Update(float ticks = 0)
+	{
+		Move(ticks);
+	}
 
-    public override void Interaction(ExplodeBomb explodeBomb)
-    {
-        if (_transform.IsCross(explodeBomb.Transfrom)) { Hurt(); }
-    }
+	public override void Interaction(Player player)
+	{
+		if (_transform.IsCross(player.Transfrom)) { player.Hurt(); }
+	}
 
-    public virtual void Move(float ticks)
-    {
-        for (int i = 0; i < MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE).Count; i++)
-        {
-            Vector2 tempPos = _transform.Position;
-            if (_direction == DIRECTION.RIGHT)
-            {
-                tempPos = new Vector2(tempPos.X + 2, tempPos.Y);
-                if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position)
-                {
-                    StopMove();
-                    return;
-                }
-            }
-            else if (_direction == DIRECTION.LEFT)
-            {
-                tempPos = new Vector2(tempPos.X - 2, tempPos.Y);
-                if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position)
-                {
-                    StopMove();
-                    return;
-                }
-            }
-            else if (_direction == DIRECTION.UP)
-            {
-                tempPos = new Vector2(tempPos.X, tempPos.Y - 1);
-                if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position)
-                {
-                    StopMove();
-                    return;
-                }
-            }
-            else if (_direction == DIRECTION.DOWN)
-            {
-                tempPos = new Vector2(tempPos.X, tempPos.Y + 1);
-                if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position)
-                {
-                    StopMove();
-                    return;
-                }
-            }
-        }
+	public override void Interaction(ExplodeBomb explodeBomb)
+	{
+		if (_transform.IsCross(explodeBomb.Transfrom)) { Hurt(); }
+	}
 
-        for (int i = 0; i < MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE).Count; i++)
-        {
-            Vector2 tempPos = _transform.Position;
-            if (_direction == DIRECTION.RIGHT)
-            {
-                tempPos = new Vector2(tempPos.X + 2, tempPos.Y);
-                if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i].Transfrom.Position)
-                {
-                    StopMove();
-                    return;
-                }
-            }
-            else if (_direction == DIRECTION.LEFT)
-            {
-                tempPos = new Vector2(tempPos.X - 2, tempPos.Y);
-                if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i].Transfrom.Position)
-                {
-                    StopMove();
-                    return;
-                }
-            }
-            else if (_direction == DIRECTION.UP)
-            {
-                tempPos = new Vector2(tempPos.X, tempPos.Y - 1);
-                if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i].Transfrom.Position)
-                {
-                    StopMove();
-                    return;
-                }
-            }
-            else if (_direction == DIRECTION.DOWN)
-            {
-                tempPos = new Vector2(tempPos.X, tempPos.Y + 1);
-                if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i].Transfrom.Position)
-                {
-                    StopMove();
-                    return;
-                }
-            }
-        }
+	public virtual void Move(float ticks)
+	{
+		for (int i = 0; i < MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE).Count; i++)
+		{
+			Vector2 tempPos = _transform.Position;
 
-        if(_direction != DIRECTION.NONE)
-        {
-            _tempPosition += (GameManager.I().DicDirection[_direction] * _stat.MoveSpeed * ticks);
+			if (_direction == DIRECTION.RIGHT) { tempPos = new Vector2(tempPos.X + 2, tempPos.Y); }
+			else if (_direction == DIRECTION.LEFT) { tempPos = new Vector2(tempPos.X - 2, tempPos.Y); }
+			else if (_direction == DIRECTION.UP) { tempPos = new Vector2(tempPos.X, tempPos.Y - 1); }
+			else if (_direction == DIRECTION.DOWN) { tempPos = new Vector2(tempPos.X, tempPos.Y + 1); }
 
-            if (Math.Abs(_tempPosition.X - _transform.Position.X) >= 2.0f) { _transform.Position.X = (int)Math.Round(_tempPosition.X); }
-            if (Math.Abs(_tempPosition.Y - _transform.Position.Y) >= 1.0f) { _transform.Position.Y = (int)Math.Round(_tempPosition.Y); }
-        }
-    }
-    public void StopMove()
-    {
-        _tempPosition = _transform.Position;
-        _direction = (DIRECTION)new Random().Next(0, 4);
-    }
+			if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position)
+			{
+				StopMove();
+				return;
+			}
+		}
 
-    private void Hurt()
-    {
-		if(Active == false) { return; }
+		for (int i = 0; i < MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE).Count; i++)
+		{
+			Vector2 tempPos = _transform.Position;
 
-        _stat.Life--;
+			if (_direction == DIRECTION.RIGHT) { tempPos = new Vector2(tempPos.X + 2, tempPos.Y); }
+			else if (_direction == DIRECTION.LEFT) { tempPos = new Vector2(tempPos.X - 2, tempPos.Y); }
+			else if (_direction == DIRECTION.UP) { tempPos = new Vector2(tempPos.X, tempPos.Y - 1); }
+			else if (_direction == DIRECTION.DOWN) { tempPos = new Vector2(tempPos.X, tempPos.Y + 1); }
 
-        if (_stat.Life <= 0)
+			if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i].Transfrom.Position)
+			{
+				StopMove();
+				return;
+			}
+		}
+
+		if (_direction != DIRECTION.NONE)
+		{
+			_tempPosition += (GameManager.I().DicDirection[_direction] * _stat.MoveSpeed * ticks);
+
+			if (Math.Abs(_tempPosition.X - _transform.Position.X) >= 2.0f) { _transform.Position.X = (int)Math.Round(_tempPosition.X); }
+			if (Math.Abs(_tempPosition.Y - _transform.Position.Y) >= 1.0f) { _transform.Position.Y = (int)Math.Round(_tempPosition.Y); }
+		}
+	}
+	public void StopMove()
+	{
+		_tempPosition = _transform.Position;
+		_direction = (DIRECTION)new Random().Next(0, 4);
+	}
+
+	private void Hurt()
+	{
+		if (Active == false) { return; }
+
+		_stat.Life--;
+
+		if (_stat.Life <= 0)
 		{
 			Active = false;
 
@@ -161,7 +117,7 @@ abstract class MonsterBase : MapObjectBase, IMovable
 
 			GameManager.I().CheckMonsterCount(1, _stat.PlayerScore);
 		}
-    }
+	}
 
-    public override MAPOBJECT_TYPE Type() { return MAPOBJECT_TYPE.MONSTER; }
+	public override MAPOBJECT_TYPE Type() { return MAPOBJECT_TYPE.MONSTER; }
 }

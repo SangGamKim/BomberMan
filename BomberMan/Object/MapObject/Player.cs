@@ -48,7 +48,7 @@ class Player : MapObjectBase, IMovable, IAttackable
 	private PlayerStat _baseStat;
 
 	private DIRECTION _direction;
-	public Vector2 _tempPosition;	//실시간으로 플레이어가 이동하는게 아니라   temp포지션을 먼저 이동해서 x는 2씩 y는 1씩 변화시켜줘서 위치잡음
+	public Vector2 _tempPosition;   //실시간으로 플레이어가 이동하는게 아니라   temp포지션을 먼저 이동해서 x는 2씩 y는 1씩 변화시켜줘서 위치잡음
 
 	private DateTime _hurtOldTime;
 	private readonly float _ResetTime; //플레이어가 펫을 타고 있다가 죽었을 때 트리거가 연속으로 되기 때문에 몇초동안은 피해 안입도록
@@ -72,7 +72,7 @@ class Player : MapObjectBase, IMovable, IAttackable
 		foreach (var eq in UserInformation.I.Inventory.ListWearEquipment) { _baseStat += eq.Stat; }
 
 		if (SceneManager.I.CurrentScene.Name() == SCENE_NAME.GAME_SCENE) { InGameBombCount = _baseStat.BombCount; }
-		else  { InGameBombCount = 0; }
+		else { InGameBombCount = 0; }
 
 		SetRide('♀', RIDE_TYPE.NULL);
 		_tempPosition = _transform.Position;
@@ -102,41 +102,16 @@ class Player : MapObjectBase, IMovable, IAttackable
 		for (int i = 0; i < MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE).Count; i++)
 		{
 			Vector2 tempPos = _transform.Position;
-			if (_direction == DIRECTION.RIGHT)
+
+			if (_direction == DIRECTION.RIGHT) { tempPos = new Vector2(tempPos.X + 2, tempPos.Y); }
+			else if (_direction == DIRECTION.LEFT) { tempPos = new Vector2(tempPos.X - 2, tempPos.Y); }
+			else if (_direction == DIRECTION.UP) { tempPos = new Vector2(tempPos.X, tempPos.Y - 1); }
+			else if (_direction == DIRECTION.DOWN) { tempPos = new Vector2(tempPos.X, tempPos.Y + 1); }
+
+			if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position)
 			{
-				tempPos = new Vector2(tempPos.X + 2, tempPos.Y);
-				if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position)
-				{
-					StopMove();
-					return;
-				}
-			}
-			else if (_direction == DIRECTION.LEFT)
-			{
-				tempPos = new Vector2(tempPos.X - 2, tempPos.Y);
-				if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position)
-				{
-					StopMove();
-					return;
-				}
-			}
-			else if (_direction == DIRECTION.UP)
-			{
-				tempPos = new Vector2(tempPos.X, tempPos.Y - 1);
-				if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position)
-				{
-					StopMove();
-					return;
-				}
-			}
-			else if (_direction == DIRECTION.DOWN)
-			{
-				tempPos = new Vector2(tempPos.X, tempPos.Y + 1);
-				if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.OBSTACLE)[i].Transfrom.Position)
-				{
-					StopMove();
-					return;
-				}
+				StopMove();
+				return;
 			}
 		}
 
@@ -145,45 +120,17 @@ class Player : MapObjectBase, IMovable, IAttackable
 			for (int i = 0; i < MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE).Count; i++)
 			{
 				Vector2 tempPos = _transform.Position;
-				if (_direction == DIRECTION.RIGHT)
+
+				if (_direction == DIRECTION.RIGHT) { tempPos = new Vector2(tempPos.X + 2, tempPos.Y); }
+				else if (_direction == DIRECTION.LEFT) { tempPos = new Vector2(tempPos.X - 2, tempPos.Y); }
+				else if (_direction == DIRECTION.UP) { tempPos = new Vector2(tempPos.X, tempPos.Y - 1); }
+				else if (_direction == DIRECTION.DOWN) { tempPos = new Vector2(tempPos.X, tempPos.Y + 1); }
+
+				if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i].Transfrom.Position)
 				{
-					tempPos = new Vector2(tempPos.X + 2, tempPos.Y);
-					if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i].Transfrom.Position)
-					{
-						Kick(MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i]);
-						StopMove();
-						return;
-					}
-				}
-				else if (_direction == DIRECTION.LEFT)
-				{
-					tempPos = new Vector2(tempPos.X - 2, tempPos.Y);
-					if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i].Transfrom.Position)
-					{
-						Kick(MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i]);
-						StopMove();
-						return;
-					}
-				}
-				else if (_direction == DIRECTION.UP)
-				{
-					tempPos = new Vector2(tempPos.X, tempPos.Y - 1);
-					if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i].Transfrom.Position)
-					{
-						Kick(MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i]);
-						StopMove();
-						return;
-					}
-				}
-				else if (_direction == DIRECTION.DOWN)
-				{
-					tempPos = new Vector2(tempPos.X, tempPos.Y + 1);
-					if (tempPos == MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i].Transfrom.Position)
-					{
-						Kick(MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i]);
-						StopMove();
-						return;
-					}
+					Kick(MapObjectManager.I.GetDicList(MAPOBJECT_TYPE.BREAK_OBSTACLE)[i]);
+					StopMove();
+					return;
 				}
 			}
 		}
@@ -203,7 +150,6 @@ class Player : MapObjectBase, IMovable, IAttackable
 		_direction = DIRECTION.NONE;
 	}
 
-	///
 	public void ReturnPos(Vector2 pos)
 	{
 		_tempPosition = pos;
@@ -305,7 +251,7 @@ class Player : MapObjectBase, IMovable, IAttackable
 	{
 		if (obj.Name() != MAPOBJECT_NAME.BOMB) { return; }
 		if (_rideType != RIDE_TYPE.NULL) { return; }
-		if(_haveKick == false) { return; }
+		if (_haveKick == false) { return; }
 
 		if (_tempPosition - obj.Position != Vector2.Zero)
 		{

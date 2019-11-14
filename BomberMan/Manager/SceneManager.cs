@@ -25,7 +25,8 @@ class SceneManager
 
 	public void ChangeScene(SCENE_NAME nextScene)
 	{
-		_dicScene[_currentScene.Name()].IsEndScene = true;
+		_currentScene.IsEndScene = true;
+
 		UIManager.I.DestroyPageUI();
 		MapObjectManager.I.DestroyAllOjbect();
 
